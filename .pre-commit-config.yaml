@@ -33,4 +33,5 @@ repos:
     rev: v1.2.0
     hooks:
     -   id: detect-secrets
+        exclude: README.rst
         # args: ['--baseline', '.secrets.baseline']
