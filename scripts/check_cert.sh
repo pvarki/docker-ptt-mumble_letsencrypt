@@ -1,6 +1,4 @@
 #!/usr/bin/env -S /usr/bin/bash -l
-# TODO; Remove --test-cert when ready for production
-CERTBOT_EXTRA_ARGS="--test-cert"
 if [ -z "$SERVER_DOMAIN" ]
 then
   echo "SERVER_DOMAIN not set"
