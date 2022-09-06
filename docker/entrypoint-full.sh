@@ -2,7 +2,12 @@
 set -e
 if [ "$#" -eq 0 ]; then
   # check cert
-  . /murmurdata/scripts/check_cert.sh
+  if [ "$NO_CERTBOT" == "1" -o "$NO_TLS" == "1" ]
+  then
+    echo "Skipping certbot"
+  else
+    . /murmurdata/scripts/check_cert.sh
+  fi
   # create configs from templates using gomplate
   cat /murmurdata/templates/server-config.tpl | gomplate >/murmurdata/config.ini
   if [ ! -z "$SUPERUSER_PASSWORD" ]

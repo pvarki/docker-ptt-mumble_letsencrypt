@@ -212,8 +212,12 @@ allowping=true
 
 ; If you have a proper SSL certificate, you can provide the filenames here.
 ; Otherwise, Murmur will create its own certificate automatically.
+{{ $tlsdisabled := env.Getenv "NO_TLS" ""}}
+{{- if $tlsdisabled }}
+{{- else}}
 sslCert=/etc/letsencrypt/live/{{.Env.SERVER_DOMAIN}}/fullchain.pem
 sslKey=/etc/letsencrypt/live/{{.Env.SERVER_DOMAIN}}/privkey.pem
+{{- end }}
 
 ; The sslDHParams option allows you to specify a PEM-encoded file with
 ; Diffie-Hellman parameters, which will be used as the default Diffie-
