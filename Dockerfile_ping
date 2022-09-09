@@ -1,0 +1,44 @@
+# syntax=docker/dockerfile:1.1.7-experimental
+######################
+# Base builder image #
+######################
+FROM golang:1.19.1-bullseye AS build
+ENV \
+  # locale
+  LC_ALL=C.UTF-8 \
+  # python:
+  PYTHONFAULTHANDLER=1 \
+  PYTHONUNBUFFERED=1 \
+  PYTHONHASHSEED=random \
+  # pip:
+  PIP_NO_CACHE_DIR=off \
+  PIP_DISABLE_PIP_VERSION_CHECK=on \
+  PIP_DEFAULT_TIMEOUT=100 \
+  # debconf
+  DEBIAN_FRONTEND=noninteractive
+
+# Checkout
+RUN mkdir -p /build \
+    && cd /build \
+    && git clone https://github.com/layeh/gumble.git \
+    && cd gumble \
+    && true
+
+# This arg is any valid git reference
+# pragma: allowlist nextline secret
+ARG GUMBLE_VERSION="146f9205029b73783dbd79043c4fc5247d8c425d"
+# Build
+RUN cd /build/gumble \
+    && git checkout $GUMBLE_VERSION \
+    && go build -v -o /build/mumble-ping -buildmode=pie cmd/mumble-ping/main.go \
+    && /build/mumble-ping --help \
+    && true
+
+##########################
+# The minimal ping image #
+##########################
+FROM debian:bullseye-slim as ping
+COPY --from=build /build/mumble-ping /bin/mumble-ping
+COPY ./docker/entrypoint-ping.sh /entrypoint.sh
+SHELL ["/bin/bash", "-lc"]
+ENTRYPOINT ["/entrypoint.sh"]
