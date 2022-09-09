@@ -25,3 +25,17 @@ If you just want murmurd to autogenerate its own self-signed certificate pass "-
 Coming back later::
 
   docker start mumbleserver
+
+
+Ping
+^^^^
+
+We also have a image for pinging a server
+
+build::
+
+    docker build --progress plain --ssh default --target ping  --tag mumbleping:latest  -f Dockerfile_ping .
+
+Run::
+
+    docker run --rm -it -e SERVER_DOMAIN=omething.example.com mumbleping:latest
