@@ -134,7 +134,7 @@ serverpassword={{.Env.SERVER_PASSWORD}}
 bandwidth=72000
 
 ; Maximum number of concurrent clients allowed.
-users=100
+users={{getenv "SERVER_USERS" "100"}}
 
 ; Per-user rate limiting
 ;
