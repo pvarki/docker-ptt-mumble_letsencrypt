@@ -28,7 +28,7 @@ Coming back later::
 
 
 Ping
-^^^^
+----
 
 We also have a image for pinging a server
 
@@ -39,3 +39,22 @@ build::
 Run::
 
     docker run --rm -it -e SERVER_DOMAIN=omething.example.com mumbleping:latest
+
+Development
+-----------
+
+pre-commit
+^^^^^^^^^^
+
+We use pre-commit to keep things clean, you need some basic dependencies (run in this directory)::
+
+    pip3 install --user pre-commit detect-secrets
+    pre-commit install
+
+As usual using virtualenvs is generally recommended but in this case not strictly mandatory.
+
+Before committing check your work with::
+
+    pre-commit run --all-files ; echo $?
+
+This saves you annoyance of rewriting commit messages when one of the checks fail.
