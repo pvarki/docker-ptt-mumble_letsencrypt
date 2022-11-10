@@ -22,6 +22,8 @@ to mount the certificate and key in the cerbot expected location for SERVER_DOMA
 
 If you just want murmurd to autogenerate its own self-signed certificate pass "-e NO_TLS=1"
 
+If you want more or less users than the default of 100 pass "-e SERVER_USERS=200"
+
 Coming back later::
 
   docker start mumbleserver
